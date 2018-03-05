@@ -1,31 +1,40 @@
 #include <stdio.h>
+#include <unistd.h>
+
 
 long long mfspr() {
 	long long reg;
 
 #define        SPR_TEXASR              0x082   /* Transaction EXception And Status Register */
-	asm ("mfspr %0, 0x82" : : "r"(reg));
+	asm ("mfspr %0, 0x82" : "+r" (reg));
 
 	return reg;
 }
 
 int main(){
-	printf("Hello\n");
+	long long texasr_ = 0x0;
 
 	asm ("tbegin.  \n\t");
         asm goto ("beq %l[failure] \n\t" : : : : failure);
 	asm ("li 3, 3\n\t");
-	asm ("tabort. 12\n\t");
+	asm ("tabort. 3\n\t");
+
+	// Should never be reached
 	printf("End\n");
 	return 0;
 
 failure:
 
-	printf("Failure\n");
+	texasr_ = mfspr();
+	printf("Failure due to tabort.\n");
+	printf("TEXASR: %llx\n", texasr_);
 
-	printf("TEXASR: %llx\n", mfspr());
-#define TEXASR_CAUSE 0xFC00000000000000ULL
-	printf("CAUSE: %llx\n", mfspr() & TEXASR_CAUSE);
+	/* Wait for a context switch */
+	sleep(1);
+	texasr_ = mfspr();
+	printf("TEXASR: %lx\n", texasr_);
+#define TEXASR_CAUSE 0xFF00000000000000UL
+	printf("CAUSE: %lx\n", (texasr_ & TEXASR_CAUSE) >> 56);
 
 	return 1;
 }
