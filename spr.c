@@ -15,7 +15,7 @@ int main(){
 	asm ("tbegin.  \n\t");
         asm goto ("beq %l[failure] \n\t" : : : : failure);
 	asm ("li 3, 3\n\t");
-	asm ("tabort. rr\n\t");
+	asm ("tabort. 12\n\t");
 	printf("End\n");
 	return 0;
 

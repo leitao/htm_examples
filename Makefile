@@ -1,8 +1,9 @@
+GCC=gcc5
 all:
-	gcc5 -g -o tend tend.c
-	gcc5 -g -o tabort tabort.c
-	gcc5 -g -o ttrap ttrap.c
-	gcc5 -g -o spr spr.c
+	$(GCC) -g -o tend tend.c
+	$(GCC) -g -o tabort tabort.c
+	$(GCC) -g -o ttrap ttrap.c
+	$(GCC) -g -o spr spr.c
 
 check:
 	./tend
