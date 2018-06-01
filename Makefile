@@ -10,6 +10,10 @@ all:
 	$(GCC) -g -o abno abno.c
 	$(GCC) -g -o syscall syscall.c
 	$(GCC) -g -o syscall2 syscall2.c
+	$(GCC) -g -o forever forever.c
+	$(GCC) -g -o notend notend.c
+	$(GCC) -g -o nonhtmtrap nonhtmtrap.c
+	
 
 check:
 	./tend
