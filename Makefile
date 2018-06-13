@@ -14,6 +14,7 @@ all:
 	$(GCC) -g -o notend notend.c
 	$(GCC) -g -o nonhtmtrap nonhtmtrap.c
 	$(GCC) -g -o nop nop.c
+	$(GCC) -g -o illegal illegal.c
 	
 
 clean:
