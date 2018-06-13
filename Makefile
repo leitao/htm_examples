@@ -15,16 +15,7 @@ all:
 	$(GCC) -g -o nonhtmtrap nonhtmtrap.c
 	
 
-check:
-	./tend
-	./tabort
-	./spr
-	./tloop
-	./abno
-	./ttrap
-	./ttrap2
-	./ttrap3
-	./syscall
-	./syscall2
 clean:
-	rm -fr tend tabort ttrap ttrap2 ttrap3 spr tloop abno syscall syscall2
+	rm tend tabort ttrap ttrap2 ttrap3 spr tloop abno \
+	syscall syscall2 a.out forever nonhtmtrap notend  \
+	sleep treclaim spr_preservation
