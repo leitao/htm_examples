@@ -1,4 +1,4 @@
-GCC=gcc5
+GCC=gcc
 all:
 	$(GCC) -g -o tend tend.c
 	$(GCC) -g -o tabort tabort.c
@@ -13,6 +13,7 @@ all:
 	$(GCC) -g -o forever forever.c
 	$(GCC) -g -o notend notend.c
 	$(GCC) -g -o nonhtmtrap nonhtmtrap.c
+	$(GCC) -g -o nop nop.c
 	
 
 clean:
