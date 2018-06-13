@@ -1,6 +1,7 @@
 #include <stdio.h>
+#include <signal.h>
 
-int loop(){
+int htm(){
 	printf("Hello\n");
 	asm ("tbegin.  \n\t");
         asm goto ("beq %l[failure] \n\t" : : : : failure);
@@ -15,9 +16,22 @@ failure:
 	return 1;
 }
 
+void signal_handler(int signo, siginfo_t *si, void *data) {
+	// Do nothing
+	printf("Inside the signal\n");
+
+}
+
 int main(){
 	int a = 0;
 
-	for (a =0; a < 1000; a++)
-		loop();
+	struct sigaction sa;
+
+        sa.sa_flags = SA_SIGINFO;
+        sa.sa_sigaction = signal_handler;
+        sigaction(SIGTRAP, &sa, NULL);
+        sigaction(SIGILL,  &sa, NULL);
+
+
+	return htm();
 }

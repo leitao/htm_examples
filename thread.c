@@ -7,7 +7,7 @@ void *loop(void *p){
         asm goto ("beq %l[failure] \n\t" : : : : failure);
 	asm ("li 3, 3\n\t");
 	//asm (".long 0x0 \n\t");
-	asm ("nop \n\t");
+	asm ("trap \n\t");
 	asm ("tend. \n\t");
 	printf("End\n");
 	return NULL;
