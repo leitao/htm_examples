@@ -2,15 +2,14 @@
 #include <signal.h>
 
 int htm(){
-	printf("Hello\n");
-	asm ("tbegin.  \n\t");
-        asm goto ("beq %l[failure] \n\t" : : : : failure);
-	asm ("li 3, 3\n\t");
-	asm (".long 0x0 \n\t");
-	asm ("tend. \n\t");
-	printf("End\n");
-	return 0;
+	asm goto ("tbegin.  		\n\t"
+		  "beq %l[failure]	\n\t" 
+		  "li 3, 3		\n\t"
+		  "trap 		\n\t"
+		  "tend. 		\n\t"
+		  : : : : failure);
 
+	return 0;
 failure:
 	printf("Failure\n");
 	return 1;
