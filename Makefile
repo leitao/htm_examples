@@ -15,6 +15,7 @@ all:
 	$(GCC) -g -o nonhtmtrap nonhtmtrap.c
 	$(GCC) -g -o nop nop.c
 	$(GCC) -g -o illegal illegal.c
+	$(GCC) -g -o illegal_ntm illegal_ntm.c
 	$(GCC) -g -o thread thread.c -lpthread
 	
 
