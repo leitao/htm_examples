@@ -18,6 +18,7 @@ all:
 	$(GCC) -g -o illegal_ntm illegal_ntm.c
 	$(GCC) -g -o thread thread.c -lpthread
 	$(GCC) -g -o badstack badstack.c
+	$(GCC) -g -o treclaim treclaim.c
 	
 
 clean:
