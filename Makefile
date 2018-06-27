@@ -19,6 +19,8 @@ all:
 	$(GCC) -g -o thread thread.c -lpthread
 	$(GCC) -g -o badstack badstack.c
 	$(GCC) -g -o treclaim treclaim.c
+	$(GCC) -g -o signal signal.c
+	$(GCC) -g -o nested_signal nested_signal.c
 	
 
 clean:
