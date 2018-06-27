@@ -17,9 +17,10 @@ all:
 	$(GCC) -g -o illegal illegal.c
 	$(GCC) -g -o illegal_ntm illegal_ntm.c
 	$(GCC) -g -o thread thread.c -lpthread
+	$(GCC) -g -o badstack badstack.c
 	
 
 clean:
-	rm tend tabort ttrap ttrap2 ttrap3 spr tloop abno \
-	syscall syscall2 a.out forever nonhtmtrap notend  \
-	sleep treclaim spr_preservation
+	rm tend tabort ttrap ttrap2 ttrap3 spr tloop abno
+	rm syscall syscall2 a.out forever nonhtmtrap notend 
+	rm sleep treclaim spr_preservation
