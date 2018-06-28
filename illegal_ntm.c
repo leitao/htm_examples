@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <signal.h>
 #include <ucontext.h>
 
@@ -14,19 +15,18 @@ void signal_handler(int signo, siginfo_t *si, void *data) {
 	ucontext_t *tm_uc = uc->uc_link;
 
 	mcontext_t *mcontext = (mcontext_t *) &uc->uc_mcontext;
-	mcontext_t *tm_mcontext = (mcontext_t *) &tm_uc->uc_mcontext;
 
 	printf("Checkpointed\n");
 	printf("R0 = %lx\n", mcontext->gp_regs[0]);
-	//if (tm_mcontext != NULL){
-		//printf("Transactional\n");
-	//	printf("R0 = %lx\n", tm_mcontext->gp_regs[0]);
-	//}
+	if (tm_uc != NULL){
+		mcontext_t *tm_mcontext = (mcontext_t *) &tm_uc->uc_mcontext;
+		printf("Transactional\n");
+		printf("R0 = %lx\n", tm_mcontext->gp_regs[0]);
+		exit(1);
+	}
 
 	/* Exit the signal handler */
-	mcontext->gp_regs[32] += 4; // skip illegal
-
-
+	mcontext->gp_regs[32] += 4; // skip illegalt:w:
 }
 
 int main(){
