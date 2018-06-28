@@ -3,8 +3,6 @@
 int main(){
 	int i;
 
-	printf("Hello\n");
-	
 	for (i = 0 ; i < 100; i ++) {
 		asm ("tbegin.  \n\t");
 		asm goto ("beq %l[failure] \n\t" : : : : failure);
@@ -16,7 +14,6 @@ int main(){
 		asm ("tend.\n\t");
 	}
 
-	printf("End\n");
 	return 0;
 
 failure:

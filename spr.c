@@ -24,7 +24,6 @@ int main(){
 	return 0;
 
 failure:
-
 	texasr_ = mfspr();
 	printf("Failure due to tabort.\n");
 	printf("TEXASR: %llx\n", texasr_);
@@ -32,9 +31,11 @@ failure:
 	/* Wait for a context switch */
 	sleep(1);
 	texasr_ = mfspr();
-	printf("TEXASR: %lx\n", texasr_);
-#define TEXASR_CAUSE 0xFF00000000000000UL
-	printf("CAUSE: %lx\n", (texasr_ & TEXASR_CAUSE) >> 56);
+	#define TEXASR_CAUSE 0xFF00000000000000UL
+	if (texasr_ & (TEXASR_CAUSE >> 56) != 3) {
+		printf("TEXASR: %lx\n", texasr_);
+		printf("CAUSE: %lx\n", (texasr_ & TEXASR_CAUSE) >> 56);
+	}
 
-	return 1;
+	return 0;
 }

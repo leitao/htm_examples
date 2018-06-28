@@ -1,10 +1,7 @@
 #include <stdio.h>
 
 int main(){
-	printf("Hello\n");
 	asm ("tend.\n\t");
-
-
 	printf("End\n");
 	return 0;
 

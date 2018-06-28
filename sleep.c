@@ -9,12 +9,11 @@ void tm(){
 	return;
 failure:
 	printf("Failure\n");
-	exit(-1);
+	return 1;
 }
 int main(){
 	tm();
 	sleep(1);
-	tm();
-	return 0;
+	return tm();;
 
 }

@@ -2,19 +2,16 @@
 #include <unistd.h>
 
 int main(){
-	printf("Hello\n");
 	asm ("tbegin.  \n\t");
         asm goto ("beq %l[failure] \n\t" : : : : failure);
 	asm ("trap\n\t");
-	
 	sleep(1);
 
 
-	printf("End\n");
+	printf("Failure\n");
 	
-	return 0;
+	return 1;
 
 failure:
-	printf("Failure\n");
-	return 1;
+	return 0;
 }

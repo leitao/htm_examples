@@ -8,15 +8,14 @@ int htm(){
 		  "tend. 		\n\t"
 		  : : : : failure);
 
-	printf("Success. This is an error!\n");
-	return 0;
+	printf("Failure. \n");
 failure:
-	printf("Failure. Expected state\n");
-	return 1;
+	return 0;
 }
 
 void signal_handler(int signo, siginfo_t *si, void *data) {
 	printf("Signal called. Returning\n");
+	printf("Trap = %d\n", si->si_value);
 }
 
 int main(){

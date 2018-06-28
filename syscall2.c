@@ -10,11 +10,9 @@ int main(){
 	asm ("tend.\n\t");
 
 
-	//asm ("trap \n\t");
-	printf("End\n");
-	return 0;
+	return 1;
+	printf("Failure\n");
 
 failure:
-	printf("Failure\n");
-	return 1;
+	return 0;
 }
