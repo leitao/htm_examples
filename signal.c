@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <signal.h>
 
+#define MAX 1024
+
 int htm(){
 	asm goto ("tbegin.  		\n\t"
 		  "beq %l[failure]	\n\t" 
@@ -9,6 +11,7 @@ int htm(){
 		  : : : : failure);
 
 	printf("Failure. \n");
+	return 1;
 failure:
 	return 0;
 }
@@ -19,7 +22,8 @@ void signal_handler(int signo, siginfo_t *si, void *data) {
 }
 
 int main(){
-	int a = 0;
+	int a;
+	int ret;
 
 	struct sigaction sa;
 
@@ -28,6 +32,8 @@ int main(){
         sigaction(SIGTRAP, &sa, NULL);
         sigaction(SIGILL,  &sa, NULL);
 
+	for (a = 0; a < MAX; a++)
+		ret += htm();
 
-	return htm();
+	return ret;
 }
