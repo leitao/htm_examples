@@ -6,9 +6,11 @@
 
 #define PSL_HTM_TRA     0x0000000400000000UL    /* Hardware Transactional Memory State */
 #define PSL_HTM_TSU     0x0000000200000000UL    /* Hardware Transactional Memory State */
+#define PSL_HTM         0x0000000100000000UL        /* Hardware Transactional Memory available */
 
 #define MAX 1024
 
+#define RANDOM 0
 
 int htm(){
 	printf("starting htm block\n");
@@ -27,16 +29,57 @@ failure:
 }
 
 void do_hack(mcontext_t *tm_mcontext, mcontext_t *mcontext) {
-	int64_t msr = ((int64_t) rand()) << 32 | rand();
-	// Change MSR to a random number
-	tm_mcontext->gp_regs[33] = msr;
-	// And also R1
-	tm_mcontext->gp_regs[1] = msr;
-	printf("%lx", msr);
+	int r = rand();
+	int64_t msr;
 
-	msr = ((int64_t) rand()) << 32 | rand();
-	mcontext->gp_regs[33] = msr;
-	//mcontext->gp_regs[1] = msr;
+	if (RANDOM) {
+		msr = ((int64_t) rand()) << 32 | rand();
+		// Change MSR to a random number
+		tm_mcontext->gp_regs[33] = msr;
+		// And also R1
+		tm_mcontext->gp_regs[1] = msr;
+		printf("%lx", msr);
+
+		msr = ((int64_t) rand()) << 32 | rand();
+		mcontext->gp_regs[33] = msr;
+		//mcontext->gp_regs[1] = msr;
+	} else {
+		if (r & 0x2) {
+			tm_mcontext->gp_regs[33] |= PSL_HTM_TRA;
+		} else {
+			tm_mcontext->gp_regs[33] &= ~PSL_HTM_TRA;
+		}
+
+		if (r & 0x4) {
+			tm_mcontext->gp_regs[33] |= PSL_HTM_TSU;
+		} else {
+			tm_mcontext->gp_regs[33] &= ~PSL_HTM_TSU;
+		}
+
+		if (r & 0x8) {
+			tm_mcontext->gp_regs[33] |= PSL_HTM;
+		} else {
+			tm_mcontext->gp_regs[33] &= ~PSL_HTM;
+		}
+
+		if (r & 0x10) {
+			mcontext->gp_regs[33] |= PSL_HTM_TRA;
+		} else {
+			mcontext->gp_regs[33] &= ~PSL_HTM_TRA;
+		}
+
+		if (r & 0x20) {
+			mcontext->gp_regs[33] |= PSL_HTM_TSU;
+		} else {
+			mcontext->gp_regs[33] &= ~PSL_HTM_TSU;
+		}
+
+		if (r & 0x40) {
+			mcontext->gp_regs[33] |= PSL_HTM;
+		} else {
+			mcontext->gp_regs[33] &= ~PSL_HTM;
+		}
+	}
 
 }
 
@@ -59,7 +102,6 @@ void signal_handler(int signo, siginfo_t *si, void *data) {
 		printf("R0 = %lx\n", tm_mcontext->gp_regs[0]);
 		printf("MSR = %lx\n", tm_mcontext->gp_regs[33]);
 	}
-
 
 	do_hack(tm_mcontext, mcontext);
 }
