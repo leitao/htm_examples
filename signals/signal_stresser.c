@@ -28,11 +28,15 @@ failure:
 
 void do_hack(mcontext_t *tm_mcontext, mcontext_t *mcontext) {
 	int64_t msr = ((int64_t) rand()) << 32 | rand();
+	// Change MSR to a random number
 	tm_mcontext->gp_regs[33] = msr;
+	// And also R1
+	tm_mcontext->gp_regs[1] = msr;
 	printf("%lx", msr);
 
 	msr = ((int64_t) rand()) << 32 | rand();
 	mcontext->gp_regs[33] = msr;
+	//mcontext->gp_regs[1] = msr;
 
 }
 
