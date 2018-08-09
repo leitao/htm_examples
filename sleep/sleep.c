@@ -2,7 +2,8 @@
 #include <unistd.h>
 #include <inttypes.h>
 
-#define SPRN_DSCR       0x03
+//#define SPRN_DSCR       0x11
+#define SPRN_DSCR       0x3
 uint64_t counter = 0x0ff000000;
 
 unsigned long get_dscr(void)
@@ -16,7 +17,8 @@ unsigned long get_dscr(void)
 
 void set_dscr(unsigned long val)                                                                           
 {
-         asm volatile("mtspr %1,%0" : : "r" (val), "i" (SPRN_DSCR));
+	printf("Setting the dscr to %lx\n", val);
+	asm volatile("mtspr %1,%0" : : "r" (val), "i" (SPRN_DSCR));
 }
 
 void tm_read_mid(){
